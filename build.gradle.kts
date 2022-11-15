@@ -12,7 +12,29 @@ repositories {
     mavenCentral()
 }
 
+val lwjglNatives = System.getProperty("os.name")!!.let { name ->
+    when {
+        arrayOf("Linux", "FreeBSD", "SunOS", "Unit").any { name.startsWith(it) } -> "natives-linux"
+        arrayOf("Mac OS X", "Darwin").any { name.startsWith(it) } -> "natives-macos"
+        arrayOf("Windows").any { name.startsWith(it) } -> "natives-windows"
+        else -> throw Error("Unrecognized or unsupported platform. Please set \"lwjglNatives\" manually")
+    }
+}
+
 dependencies {
+    implementation(platform("org.lwjgl:lwjgl-bom:3.3.1"))
+
+    implementation("ch.qos.logback:logback-classic:1.4.4")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+    implementation("org.lwjgl:lwjgl")
+    implementation("org.lwjgl:lwjgl-glfw")
+    implementation("org.lwjgl:lwjgl-opengl")
+    implementation("org.lwjgl:lwjgl-stb")
+    runtimeOnly("org.lwjgl:lwjgl:$lwjglNatives")
+    runtimeOnly("org.lwjgl:lwjgl-glfw:$lwjglNatives")
+    runtimeOnly("org.lwjgl:lwjgl-opengl:$lwjglNatives")
+    runtimeOnly("org.lwjgl:lwjgl-stb:$lwjglNatives")
+    implementation("org.joml:joml:1.10.5")
     testImplementation(kotlin("test"))
 }
 
