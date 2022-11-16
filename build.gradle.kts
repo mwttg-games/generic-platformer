@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.mwttg-games"
-version = "1.0.0-SNAPSHOT"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -44,10 +44,6 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "16"
-}
-
-distributions {
-
 }
 
 application {
