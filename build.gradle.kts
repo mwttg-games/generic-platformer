@@ -30,10 +30,10 @@ dependencies {
     implementation("org.lwjgl:lwjgl-glfw")
     implementation("org.lwjgl:lwjgl-opengl")
     implementation("org.lwjgl:lwjgl-stb")
-    runtimeOnly("org.lwjgl:lwjgl:$lwjglNatives")
-    runtimeOnly("org.lwjgl:lwjgl-glfw:$lwjglNatives")
-    runtimeOnly("org.lwjgl:lwjgl-opengl:$lwjglNatives")
-    runtimeOnly("org.lwjgl:lwjgl-stb:$lwjglNatives")
+    runtimeOnly("org.lwjgl", "lwjgl", classifier = lwjglNatives)
+    runtimeOnly("org.lwjgl", "lwjgl-glfw", classifier = lwjglNatives)
+    runtimeOnly("org.lwjgl", "lwjgl-opengl", classifier = lwjglNatives)
+    runtimeOnly("org.lwjgl", "lwjgl-stb", classifier = lwjglNatives)
     implementation("org.joml:joml:1.10.5")
     testImplementation(kotlin("test"))
 }
@@ -48,4 +48,5 @@ tasks.withType<KotlinCompile> {
 
 application {
     mainClass.set("io.github.mwttg.games.platformer.ApplicationKt")
+    applicationDefaultJvmArgs = listOf("-XstartOnFirstThread")
 }
