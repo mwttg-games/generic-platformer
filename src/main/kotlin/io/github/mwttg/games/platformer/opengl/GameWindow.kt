@@ -13,12 +13,16 @@ private val logger = KotlinLogging.logger {}
 object GameWindow {
 
     fun create(openGlConfiguration: OpenGlConfiguration): Long {
-        logger.info { "Create Game-Window" }
+        logger.info { "Create Game-Window ..." }
+
         initializeGlfw()
         val id = initializeGameWindow(openGlConfiguration)
         CleanUp.setGameWindowId(id)
         initializeKeyCallback(id)
         centerGameWindow(id, openGlConfiguration)
+
+        logger.info { "... Finished Game-Window" }
+
         return id
     }
 
@@ -26,12 +30,19 @@ object GameWindow {
         logger.debug { "    initialize GLFW" }
         GLFWErrorCallback.createPrint(System.err).set()
         if (!GLFW.glfwInit()) {
-            throw RuntimeException("GLFW couldn't be initialized")
+            throw RuntimeException("An error occurred during initializing GLFW")
         }
     }
 
     private fun initializeGameWindow(config: OpenGlConfiguration): Long {
         logger.debug { "    initialize Game-Window" }
+
+        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GL41.GL_TRUE)
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GL41.GL_TRUE)
+        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, config.majorVersion)
+        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, config.minorVersion)
+        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GL41.GL_TRUE)
+        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE)
 
         val monitor = GLFW.glfwGetPrimaryMonitor()
         val id = GLFW.glfwCreateWindow(
@@ -42,26 +53,21 @@ object GameWindow {
             MemoryUtil.NULL
         )
         if (id == MemoryUtil.NULL) {
-            throw RuntimeException("GLFW couldn't initialize Game-Window")
+            throw RuntimeException("An error occurred during initializing the Game-Window")
         }
 
         GLFW.glfwMakeContextCurrent(id)
+        GL.createCapabilities()
+        GL41.glClearColor(config.clearColorRed, config.clearColorGreen, config.clearColorBlue, 1.0f)
+        GLFW.glfwSwapInterval(if (config.vSync) 1 else 0)
         GLFW.glfwShowWindow(id)
         GLFW.glfwSetInputMode(id, GLFW.GLFW_STICKY_KEYS, GLFW.GLFW_TRUE)
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GL41.GL_TRUE)
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GL41.GL_TRUE)
-        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, config.majorVersion)
-        GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, config.minorVersion)
-        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GL41.GL_TRUE)
-        GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_PROFILE, GLFW.GLFW_OPENGL_CORE_PROFILE)
-        GLFW.glfwSwapInterval(if (config.vSync) 1 else 0)
-        GL.createCapabilities()
+
         GL41.glEnable(GL41.GL_DEPTH_TEST)
         GL41.glEnable(GL41.GL_BLEND)
         GL41.glBlendFunc(GL41.GL_SRC_ALPHA, GL41.GL_ONE_MINUS_SRC_ALPHA)
         GL41.glEnable(GL41.GL_CULL_FACE)
         GL41.glCullFace(GL41.GL_BACK)
-        GL41.glClearColor(config.clearColorRed, config.clearColorGreen, config.clearColorBlue, 1.0f)
 
         return id
     }

@@ -12,10 +12,19 @@ object CleanUp {
     private var gameWindowId = 0L
     private val vertexBufferObjectIds = mutableListOf<Int>()
     private val vertexArrayObjectIds = mutableListOf<Int>()
+    private val textureIds = mutableListOf<Int>()
+    private val shaderProgramIds = mutableListOf<Int>()
+    private val shaderIds = mutableListOf<Int>()
 
     fun purge() {
         logger.info { "Start clean-up process ..." }
 
+        logger.debug { "    Deleting Shaders" }
+        shaderIds.forEach(GL41::glDeleteShader)
+        logger.debug { "    Deleting ShaderPrograms" }
+        shaderProgramIds.forEach(GL41::glDeleteProgram)
+        logger.debug { "    Deleting Textures" }
+        textureIds.forEach(GL41::glDeleteTextures)
         logger.debug { "    Deleting VertexArrayObjects" }
         vertexArrayObjectIds.forEach(GL41::glDeleteVertexArrays)
         logger.debug { "    Deleting VertexBufferObjects" }
@@ -43,5 +52,17 @@ object CleanUp {
 
     fun addVertexArrayObjectId(id: Int) {
         vertexArrayObjectIds.add(id)
+    }
+
+    fun addTextureId(id: Int) {
+        textureIds.add(id)
+    }
+
+    fun addShaderProgramId(id: Int) {
+        shaderProgramIds.add(id)
+    }
+
+    fun addShaderId(id: Int) {
+        shaderIds.add(id)
     }
 }

@@ -46,7 +46,14 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "16"
 }
 
+distributions {
+
+}
+
 application {
     mainClass.set("io.github.mwttg.games.platformer.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-XstartOnFirstThread")
+    applicationDistribution.from("./data") {
+        into("bin/data")
+    }
 }
