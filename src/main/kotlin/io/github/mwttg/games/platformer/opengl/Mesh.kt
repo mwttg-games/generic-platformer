@@ -26,6 +26,27 @@ data class Mesh(val positions: FloatArray, val uvCoordinates: FloatArray) {
                 uvCoordinates = createTextureCoordinates()
             )
 
+        fun createAnimatedSpriteMesh(width: Float, height: Float, maxFrames: Int): Mesh {
+            // position: 6 points per plane (2 triangles), each point has 3 coordinates (x, y, z)
+            val positions = mutableListOf<Float>()
+            for (index in 0 until maxFrames) {
+                val points = createPositions(width, height)
+                positions.addAll(points.toList())
+            }
+
+            // uvCoordinates: 6 points per plane, each point has 2 coordinates (u, v)
+            val uvCoordinates = mutableListOf<Float>()
+            for (index in 0 until maxFrames) {
+                val textureCoordinates = createTextureCoordinates(index, maxFrames)
+                uvCoordinates.addAll(textureCoordinates.toList())
+            }
+
+            return Mesh(
+                positions = positions.toFloatArray(),
+                uvCoordinates = uvCoordinates.toFloatArray()
+            )
+        }
+
         private fun createPositions(width: Float, height: Float): FloatArray =
             floatArrayOf(
                 width, 0.0f, 0.0f,
