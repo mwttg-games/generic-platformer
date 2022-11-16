@@ -47,5 +47,5 @@ tasks.withType<KotlinCompile> {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("io.github.mwttg.games.platformer.ApplicationKt")
 }

@@ -1,3 +1,5 @@
+package io.github.mwttg.games.platformer
+
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
