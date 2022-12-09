@@ -13,7 +13,7 @@ data class OpenGlConfiguration(
     val clearColorGreen: Float,
     val clearColorBlue: Float,
     val nearPlane: Float,
-    val farPlane: Float
+    val farPlane: Float,
 ) {
 
     fun prettyFormat(): String = """

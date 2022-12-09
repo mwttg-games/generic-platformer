@@ -11,7 +11,7 @@ data class Sprite(
     val vertexArrayObjectId: Int,
     val textureId: Int,
     val shaderProgramId: Int,
-    val uniforms: Uniform
+    val uniforms: Uniform,
 ) : Drawable {
 
     override fun draw(model: Matrix4f, view: Matrix4f, projection: Matrix4f) {

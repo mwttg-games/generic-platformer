@@ -12,7 +12,7 @@ object ShaderProgram {
 
     private fun createFromResources(
         vertexShaderFilePath: String = "/shader/vertex.glsl",
-        fragmentShaderFilePath: String = "/shader/fragment.glsl"
+        fragmentShaderFilePath: String = "/shader/fragment.glsl",
     ): Int {
         logger.info { "Create a ShaderProgram ..." }
 
@@ -42,7 +42,7 @@ object ShaderProgram {
 
     private fun createShaderProgram(
         vertexShaderCode: List<String>,
-        fragmentShaderCode: List<String>
+        fragmentShaderCode: List<String>,
     ): Int {
         logger.debug { "    initialize ShaderProgram" }
 

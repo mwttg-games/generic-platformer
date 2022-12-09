@@ -4,7 +4,7 @@ data class Timing(
     val delaysInMs: List<Int>,
     val maxFrames: Int,
     var currentFrame: Int,
-    var lastTick: Long
+    var lastTick: Long,
 ) {
     fun computeCurrentFrame(): Int {
         val now = System.currentTimeMillis()
