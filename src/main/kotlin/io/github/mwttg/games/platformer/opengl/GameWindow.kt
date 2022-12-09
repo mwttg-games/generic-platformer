@@ -69,6 +69,10 @@ object GameWindow {
         GL41.glEnable(GL41.GL_CULL_FACE)
         GL41.glCullFace(GL41.GL_BACK)
 
+        if (config.wireFrane) {
+            GL41.glPolygonMode(GL41.GL_FRONT_AND_BACK, GL41.GL_LINE)
+        }
+
         return id
     }
 
